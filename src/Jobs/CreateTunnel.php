@@ -51,20 +51,20 @@ class CreateTunnel
     }
 
 
-    public function handle(): int
+    public function handle()
     {
         if ($this->verifyTunnel()) {
             return 1;
         }
 
         $this->createTunnel();
-        
+
         $tries = config('tunneler.tries');
         for ($i = 0; $i < $tries; $i++) {
             if ($this->verifyTunnel()) {
                 return 2;
             }
-            
+
             // Wait a bit until next iteration
             usleep(config('tunneler.wait'));
         }
